@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="GameEventsAnalyzer.Test/GameEventsAnalyzer.Test.csproj" />
+  <Project Path="GameEventsAnalyzer/GameEventsAnalyzer.csproj" />
+</Solution>
