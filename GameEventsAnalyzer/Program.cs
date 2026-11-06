@@ -37,5 +37,39 @@ internal class Program
 
         Console.WriteLine(
             $"Результаты LINQ и PLINQ совпадают: {same}");
+
+        var unordered =
+            GameEventAnalyzer.GetKillsUnordered(events);
+
+        var ordered =
+            GameEventAnalyzer.GetKillsOrdered(events);
+
+        var sorted =
+            GameEventAnalyzer.GetKillsSortedByTime(events);
+
+        Console.WriteLine();
+        Console.WriteLine($"Kill без AsOrdered: {unordered.Count}");
+        Console.WriteLine($"Kill с AsOrdered: {ordered.Count}");
+        Console.WriteLine($"Kill после сортировки: {sorted.Count}");
+
+        Console.WriteLine();
+        Console.WriteLine("Первые 10 событий с сохранением исходного порядка:");
+
+        foreach (var gameEvent in ordered.Take(10))
+        {
+            Console.WriteLine(
+                $"ID: {gameEvent.Id}, " +
+                $"Игрок: {gameEvent.PlayerId}, " +
+                $"Время: {gameEvent.Timestamp:HH:mm:ss}");
+        }
+
+        bool isOrdered = ordered
+        .Select(e => e.Id)
+        .SequenceEqual(
+            ordered.Select(e => e.Id).OrderBy(id => id));
+
+        Console.WriteLine($"Исходный порядок сохранён: {isOrdered}");
+
+        BenchmarkRunner.Compare(events);
     }
 }

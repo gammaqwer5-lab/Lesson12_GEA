@@ -43,4 +43,40 @@ public static partial class GameEventAnalyzer
             .ThenBy(x => x.PlayerId)
             .ToList();
     }
+
+    public static List<GameEvent> GetKillsUnordered(
+    IEnumerable<GameEvent> events)
+    {
+        ArgumentNullException.ThrowIfNull(events);
+
+        return events
+            .AsParallel()
+            .Where(e => e.Type == "Kill")
+            .ToList();
+    }
+
+    public static List<GameEvent> GetKillsOrdered(
+    IEnumerable<GameEvent> events)
+    {
+        ArgumentNullException.ThrowIfNull(events);
+        // PLINQ с сохранением порядка:
+        return events
+            .AsParallel()
+            .AsOrdered()
+            .Where(e => e.Type == "Kill")
+            .ToList();
+    }
+
+    public static List<GameEvent> GetKillsSortedByTime(
+    IEnumerable<GameEvent> events)
+    {
+        ArgumentNullException.ThrowIfNull(events);
+        // Здесь `AsOrdered()` не нужен: порядок задаётся явно сортировкой.
+        return events
+            .AsParallel()
+            .Where(e => e.Type == "Kill")
+            .OrderBy(e => e.Timestamp)
+            .ThenBy(e => e.Id)
+            .ToList();
+    }
 }
