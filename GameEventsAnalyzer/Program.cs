@@ -18,7 +18,7 @@ internal class Program
 
         var plinqResult =
             GameEventAnalyzer.AnalyzeWithPlinq(events);
-
+         
         Console.WriteLine();
         Console.WriteLine("Топ игроков:");
 
